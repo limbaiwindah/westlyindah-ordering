@@ -7,21 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .item-chip:has(:checked) { background-color: #dcfce7; border-color: #166534; color: #166534; }
-        /* Smooth transitions for buttons */
         .active-scale:active { transform: scale(0.96); }
+        /* Hidden by default */
+        #addressSection { display: none; }
     </style>
 </head>
 <body class="bg-green-50 min-h-screen flex items-center justify-center p-4 font-sans">
 
     <div class="w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border-t-8 border-green-600">
         
-        <div class="p-6 text-center bg-gradient-to-b from-green-50 to-white">
+        <div class="p-6 text-center bg-gradient-to-b from-green-50 to-white border-b border-slate-50">
             <h1 class="text-3xl font-black text-green-800 italic tracking-tighter">🥬 WestlyIndah</h1>
             <p class="text-[11px] font-bold text-green-600 uppercase tracking-[0.2em] mt-1">Pasar Tamparuli & Kiulu</p>
             <p class="mt-3 text-sm font-semibold text-slate-600">Booking dulu, tinggal pickup ja nanti! 🛍️</p>
         </div>
 
-        <form id="orderForm" class="px-6 pb-6 space-y-5">
+        <form id="orderForm" class="px-6 py-6 space-y-5">
             
             <div class="grid grid-cols-2 gap-3">
                 <input type="text" id="name" required placeholder="Nama" class="p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none font-bold text-sm transition-all">
@@ -31,51 +32,58 @@
             <div>
                 <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 px-1">Pilih Barang (Klik ja):</label>
                 <div class="flex flex-wrap gap-2" id="menuItems">
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Ayam Bulat" class="hidden"> 🐔 Ayam Bulat
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Dada Ayam" class="hidden"> 🥩 Dada Ayam
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Kaki Ayam" class="hidden"> 🐾 Kaki Ayam
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Tauhu Goreng" class="hidden"> 🟫 Tauhu Goreng
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Tauhu Putih" class="hidden"> ⬜ Tauhu Putih
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Tempeh" class="hidden"> 🧱 Tempeh
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Mee Kuning" class="hidden"> 🍜 Mee Kuning
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Kuey Teow" class="hidden"> 🥢 Kuey Teow
                     </label>
-                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm hover:border-green-200">
+                    <label class="item-chip border-2 border-slate-100 px-3 py-2 rounded-xl cursor-pointer transition-all text-xs font-bold text-slate-600 flex items-center shadow-sm">
                         <input type="checkbox" value="Fishcake" class="hidden"> 🍥 Fishcake
                     </label>
                 </div>
-                <textarea id="orderItems" rows="2" placeholder="Lain-lain / Berapa kg? (Contoh: Ayam 2 ekor), atau kalau kau prefer tulis order, tulis ja sini." class="mt-3 w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-sm font-medium transition-all"></textarea>
+                <textarea id="orderItems" rows="2" placeholder="Lain-lain / Berapa kg? (Ayam 2 ekor), atau tulis ja sini." class="mt-3 w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-green-500 outline-none text-sm font-medium transition-all"></textarea>
             </div>
 
-            <div class="bg-green-50 p-3 rounded-[1.5rem] border-2 border-green-100">
+            <div class="bg-green-50 p-3 rounded-[1.5rem] border-2 border-green-100 space-y-3 shadow-inner">
                 <div class="grid grid-cols-2 gap-2">
                     <label class="flex flex-col items-center justify-center p-3 bg-white rounded-xl border-2 border-transparent has-[:checked]:border-green-600 cursor-pointer shadow-sm transition-all">
-                        <input type="radio" name="deliveryMethod" value="Self-Pickup" checked class="hidden">
+                        <input type="radio" name="deliveryMethod" value="Self-Pickup" checked class="hidden" onchange="toggleAddress(false)">
                         <span class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Ambil Sendiri</span>
-                        <span class="text-xs font-bold text-green-700 underline underline-offset-2">FREE</span>
+                        <span class="text-xs font-bold text-green-700">FREE</span>
                     </label>
                     <label class="flex flex-col items-center justify-center p-3 bg-white rounded-xl border-2 border-transparent has-[:checked]:border-green-600 cursor-pointer text-center shadow-sm transition-all">
-                        <input type="radio" name="deliveryMethod" value="Delivery" class="hidden">
+                        <input type="radio" name="deliveryMethod" value="Delivery" class="hidden" onchange="toggleAddress(true)">
                         <span class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Minta Hantar</span>
                         <span class="text-[10px] font-bold text-red-600 italic">CAJ RM2 - RM5</span>
                     </label>
                 </div>
-                <p class="text-[9px] text-center text-slate-500 font-bold mt-2 uppercase tracking-tighter">* Area Tamparuli / Kiulu saja</p>
+
+                <div id="addressSection" class="transition-all duration-300">
+                    <input type="text" id="address" placeholder="Tulis Alamat / Lokasi Hantar" 
+                        class="w-full p-4 bg-white border-2 border-red-200 rounded-2xl focus:border-green-500 outline-none text-sm font-bold shadow-sm transition-all">
+                    <p class="text-[9px] text-center text-red-600 font-bold mt-2 uppercase tracking-tighter">
+                        * Area Tamparuli / Kiulu saja
+                    </p>
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
@@ -89,14 +97,14 @@
                 </select>
             </div>
 
-            <div class="space-y-3 pt-2">
+            <div class="space-y-4 pt-2">
                 <button type="submit" id="submitBtn" class="active-scale w-full bg-green-600 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-green-700 transition-all uppercase tracking-widest text-lg">
                     Confirm Order ✅
                 </button>
 
-                <div class="relative py-2 text-center">
+                <div class="relative py-1 text-center">
                     <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-100"></div></div>
-                    <span class="relative px-2 bg-white text-[10px] font-black text-slate-300 uppercase tracking-widest">Atau</span>
+                    <span class="relative px-3 bg-white text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Atau</span>
                 </div>
 
                 <a href="https://wa.me/601126860080?text=Hai%20Pn%20Rozitah%2C%20mau%20tanya%20stok..." 
@@ -110,17 +118,31 @@
             </div>
         </form>
 
-        <div class="pb-8 text-center">
-            <p class="text-[11px] text-slate-400 italic font-medium">
+        <div class="pb-8 text-center px-6">
+            <p class="text-[12px] text-slate-400 italic font-medium leading-relaxed">
                 Dibina dengan syukur oleh Limbai family punya sumandak ✨
             </p>
-            <p class="text-[9px] text-green-600 font-black mt-2 tracking-[0.4em] uppercase opacity-50">WestlyIndah • 2026</p>
+            <p class="text-[9px] text-green-600 font-black mt-2 tracking-[0.4em] uppercase opacity-40">WestlyIndah • 2026</p>
         </div>
     </div>
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwfxU-fVV5RpyVCWwWI8lKPx5nJzRWHorWojN1YjENz6O3KGVIQ-YZQNlDJyeFc1rugcA/exec';
         const phoneNumber = '601126860080';
+
+        function toggleAddress(isDelivery) {
+            const section = document.getElementById('addressSection');
+            const input = document.getElementById('address');
+            
+            if(isDelivery) {
+                section.style.display = 'block';
+                input.required = true;
+            } else {
+                section.style.display = 'none';
+                input.required = false;
+                input.value = ""; // Clear input if they switch back
+            }
+        }
 
         const form = document.getElementById('orderForm');
         const btn = document.getElementById('submitBtn');
@@ -145,6 +167,7 @@
                 name: document.getElementById('name').value,
                 phone: document.getElementById('phone').value,
                 order: fullOrder,
+                address: document.getElementById('address').value || "Self-Pickup",
                 date: document.getElementById('weekPick').value + " (" + document.getElementById('dayPick').value + ")",
                 delivery: document.querySelector('input[name="deliveryMethod"]:checked').value
             };
@@ -155,6 +178,7 @@
                                 `--------------------------\n` +
                                 `👤 *PELANGGAN:* ${payload.name}\n` +
                                 `📍 *CARA:* ${payload.delivery.toUpperCase()}\n` +
+                                `🏠 *LOKASI:* ${payload.address}\n` +
                                 `🗓️ *HARI:* ${payload.date}\n` +
                                 `--------------------------\n` +
                                 `🛒 *PESANAN:*\n${payload.order}\n` +
