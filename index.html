@@ -5,104 +5,154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WestlyIndah Ordering</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Hidden by default, shown when "Tarikh Lain" is picked */
+        #customDateContainer { display: none; }
+    </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 text-slate-900">
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4">
 
     <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 border border-slate-100">
         <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-green-700 uppercase tracking-tight">WestlyIndah</h1>
-            <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Sistem Tempahan Mudah</p>
+            <h1 class="text-2xl font-bold text-green-700 uppercase">WestlyIndah</h1>
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1 text-center">Tempahan Selasa & Rabu</p>
         </div>
 
         <form id="orderForm" class="space-y-4">
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Pelanggan</label>
-                <input type="text" id="name" required placeholder="Nama anda..." 
-                    class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition">
+            <div class="grid grid-cols-1 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Pelanggan</label>
+                    <input type="text" id="name" required placeholder="Nama anda..." 
+                        class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">No. Telefon WhatsApp</label>
+                    <input type="tel" id="phone" required placeholder="Contoh: 011..." 
+                        class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition">
+                </div>
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">Pesanan (Item & Kuantiti)</label>
-                <textarea id="orderItems" rows="4" required placeholder="Contoh: 3kg ayam, 2 bungkus mee..." 
+                <textarea id="orderItems" rows="3" required placeholder="3kg ayam, 2 bungkus mee..." 
                     class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition"></textarea>
+            </div>
+
+            <div class="space-y-3">
+                <label class="block text-sm font-semibold text-slate-700">Bila nak ambil?</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <label class="flex flex-col items-center justify-center p-2 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer has-[:checked]:border-green-600 has-[:checked]:bg-green-50 border-2 transition text-center">
+                        <input type="radio" name="weekPick" value="Minggu Ini" checked class="hidden" onclick="toggleDate(false)">
+                        <span class="text-[10px] font-bold text-slate-700">Minggu Ini</span>
+                    </label>
+                    <label class="flex flex-col items-center justify-center p-2 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer has-[:checked]:border-green-600 has-[:checked]:bg-green-50 border-2 transition text-center">
+                        <input type="radio" name="weekPick" value="Minggu Depan" class="hidden" onclick="toggleDate(false)">
+                        <span class="text-[10px] font-bold text-slate-700">Minggu Depan</span>
+                    </label>
+                    <label class="flex flex-col items-center justify-center p-2 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer has-[:checked]:border-green-600 has-[:checked]:bg-green-50 border-2 transition text-center">
+                        <input type="radio" name="weekPick" value="Custom" class="hidden" onclick="toggleDate(true)">
+                        <span class="text-[10px] font-bold text-slate-700">Tarikh Lain</span>
+                    </label>
+                </div>
+
+                <div id="daySelector" class="grid grid-cols-2 gap-4 mt-2">
+                    <label class="flex items-center justify-center p-3 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer has-[:checked]:border-green-600 has-[:checked]:bg-green-50 transition">
+                        <input type="radio" name="dayPick" value="Selasa" checked class="mr-2 accent-green-600">
+                        <span class="text-sm font-bold">Selasa</span>
+                    </label>
+                    <label class="flex items-center justify-center p-3 bg-slate-50 border-2 border-slate-200 rounded-xl cursor-pointer has-[:checked]:border-green-600 has-[:checked]:bg-green-50 transition">
+                        <input type="radio" name="dayPick" value="Rabu" class="mr-2 accent-green-600">
+                        <span class="text-sm font-bold">Rabu</span>
+                    </label>
+                </div>
+
+                <div id="customDateContainer">
+                    <input type="date" id="orderDate" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none">
+                    <p class="text-[9px] text-slate-400 mt-1">*Sila pilih Selasa/Rabu sahaja</p>
+                </div>
             </div>
 
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">Arahan Khas / Alamat</label>
-                <input type="text" id="details" placeholder="Contoh: Pickup pukul 10am / Alamat hantar" 
-                    class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition">
-                
-                <p class="mt-2 text-[11px] text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-100 leading-relaxed">
-                    <strong>Nota:</strong> Penghantaran terhad kepada kawasan berdekatan sahaja. Sila chat kami dahulu untuk pengesahan lokasi.
-                </p>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">Pilih Hari:</label>
-                <div class="grid grid-cols-2 gap-4">
-                    <label class="flex items-center justify-center p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-green-50 transition border-2 has-[:checked]:border-green-600 has-[:checked]:bg-green-50">
-                        <input type="radio" name="orderDate" value="Selasa" required class="mr-2 accent-green-600">
-                        <span class="text-slate-700 font-bold">Selasa</span>
-                    </label>
-                    <label class="flex items-center justify-center p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-green-50 transition border-2 has-[:checked]:border-green-600 has-[:checked]:bg-green-50">
-                        <input type="radio" name="orderDate" value="Rabu" required class="mr-2 accent-green-600">
-                        <span class="text-slate-700 font-bold">Rabu</span>
-                    </label>
+                <input type="text" id="details" placeholder="Alamat / Masa pickup" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none">
+                <div class="mt-2 text-[10px] text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-100 font-medium">
+                    ⚠️ Penghantaran terhad kawasan berdekatan sahaja.
                 </div>
             </div>
 
-            <button type="submit" id="submitBtn" 
-                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition duration-200 text-lg">
+            <button type="submit" id="submitBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition duration-200 text-lg">
                 Hantar Tempahan
             </button>
         </form>
 
-        <div class="mt-8 pt-6 border-t border-slate-200 text-center">
-            <p class="text-xs text-slate-400 font-bold uppercase mb-3">Ada soalan lain / Stok hari ini?</p>
-            <a href="https://wa.me/601125126987?text=Hi%2C%20saya%20nak%20tanya%20stok%20untuk%20hari%20ni%20ada%20lagi%20ke%3F" 
-               class="inline-flex items-center text-green-600 font-bold hover:underline">
-                💬 Klik untuk terus ke WhatsApp
+        <div class="mt-6 pt-4 border-t border-slate-200 text-center">
+            <a href="https://wa.me/601125126987?text=Hi%2C%20ada%20stok%20lagi%20ke%3F" class="text-green-600 font-bold hover:underline text-xs">
+                💬 Tanya Stok Hari Ini (WhatsApp)
             </a>
         </div>
-        
-        <p class="text-center text-[10px] text-slate-300 mt-8 tracking-tighter">Developed for WestlyIndah Family Business</p>
     </div>
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwfxU-fVV5RpyVCWwWI8lKPx5nJzRWHorWojN1YjENz6O3KGVIQ-YZQNlDJyeFc1rugcA/exec'; 
         const phoneNumber = '601125126987'; 
-    
+
+        // Toggle visibility of Date Picker
+        function toggleDate(showCustom) {
+            document.getElementById('customDateContainer').style.display = showCustom ? 'block' : 'none';
+            document.getElementById('daySelector').style.display = showCustom ? 'none' : 'grid';
+        }
+
         const form = document.getElementById('orderForm');
         const btn = document.getElementById('submitBtn');
-    
+
         form.addEventListener('submit', e => {
             e.preventDefault();
             btn.disabled = true;
             btn.innerText = "Sila tunggu...";
-    
+
+            const weekType = document.querySelector('input[name="weekPick"]:checked').value;
+            let finalDate = "";
+
+            if (weekType === "Custom") {
+                finalDate = document.getElementById('orderDate').value;
+                // Simple validation for Tue/Wed
+                const day = new Date(finalDate).getUTCDay();
+                if (day !== 2 && day !== 3) {
+                    alert("Sila pilih hari Selasa atau Rabu sahaja.");
+                    btn.disabled = false;
+                    btn.innerText = "Hantar Tempahan";
+                    return;
+                }
+            } else {
+                const dayName = document.querySelector('input[name="dayPick"]:checked').value;
+                finalDate = `${weekType} (${dayName})`;
+            }
+
             const payload = {
                 name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
                 order: document.getElementById('orderItems').value,
                 details: document.getElementById('details').value,
-                date: document.querySelector('input[name="orderDate"]:checked').value
+                date: finalDate
             };
-    
+
             fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) })
                 .then(() => {
                     const now = new Date().toLocaleString('ms-MY');
-                    const msg = `*TEMPAPAN BARU (SISTEM)*\n` +
+                    const msg = `*TEMPAHAN BARU (SISTEM)*\n` +
                                 `--------------------------\n` +
                                 `*Nama:* ${payload.name}\n` +
-                                `*Hari:* ${payload.date}\n` +
+                                `*No Tel:* ${payload.phone}\n` +
+                                `*Tarikh:* ${payload.date}\n` +
                                 `*Pesanan:*\n${payload.order}\n\n` +
                                 `*Nota:* ${payload.details || '-'}\n` +
                                 `--------------------------\n` +
-                                `✅ _Rekod Sistem: ${now}_`;
+                                `✅ _Rekod: ${now}_`;
                     
                     window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`;
                 })
                 .catch(error => {
-                    alert('Ralat! Sila cuba lagi.');
+                    alert('Ralat! Cuba lagi.');
                     btn.disabled = false;
                     btn.innerText = "Hantar Lagi";
                 });
