@@ -49,51 +49,57 @@
     </div>
 
     <script>
-        // 1. Paste your Google Web App URL here
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfxU-fVV5RpyVCWwWI8lKPx5nJzRWHorWojN1YjENz6O3KGVIQ-YZQNlDJyeFc1rugcA/exec';
-        
-        // 2. Put your parents' phone number here (start with 60)
-        const phoneNumber = '601126860080';
-
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfxU-fVV5RpyVCWwWI8lKPx5nJzRWHorWojN1YjENz6O3KGVIQ-YZQNlDJyeFc1rugcA/exec'; // <--- PASTE YOUR URL HERE
+        const phoneNumber = '601125126987'; // <--- PASTE PARENTS PHONE HERE
+    
         const form = document.getElementById('orderForm');
         const btn = document.getElementById('submitBtn');
-
-        // Set min date to today so they can't pick the past
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('orderDate').setAttribute('min', today);
-
+        const dateInput = document.getElementById('orderDate');
+    
+        // 1. Logic: Only allow Today and Future dates
+        const todayStr = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', todayStr);
+    
+        // 2. Logic: Only allow Tuesday (2) and Wednesday (3)
+        dateInput.addEventListener('change', function() {
+            const day = new Date(this.value).getUTCDay(); 
+            if (day !== 2 && day !== 3) {
+                alert("Maaf! Kami hanya beroperasi pada hari SELASA & RABU sahaja.");
+                this.value = ""; 
+            }
+        });
+    
         form.addEventListener('submit', e => {
             e.preventDefault();
-            
-            // UI Feedback
             btn.disabled = true;
-            btn.innerText = "Sedang menghantar...";
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-
+            btn.innerText = "Sila tunggu...";
+    
             const payload = {
                 name: document.getElementById('name').value,
                 order: document.getElementById('orderItems').value,
                 details: document.getElementById('details').value,
                 date: document.getElementById('orderDate').value
             };
-
+    
             fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) })
                 .then(() => {
-                    // Create the Malay WhatsApp Message
-                    const msg = `*Tempahan Baru: WestlyIndah*\n\n` +
+                    const now = new Date().toLocaleString('ms-MY');
+                    // This message format makes it hard for customers to "fake" an edit
+                    const msg = `*TEMPAPAN BARU (SISTEM)*\n` +
+                                `--------------------------\n` +
                                 `*Nama:* ${payload.name}\n` +
-                                `*Tarikh:* ${payload.date}\n\n` +
+                                `*Tarikh Ambil:* ${payload.date}\n` +
                                 `*Pesanan:*\n${payload.order}\n\n` +
-                                `*Nota:* ${payload.details ? payload.details : '-'}`;
+                                `*Nota:* ${payload.details || '-'}\n` +
+                                `--------------------------\n` +
+                                `✅ _Rekod Sistem: ${now}_`;
                     
                     window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`;
                 })
                 .catch(error => {
-                    alert('Maaf, ada masalah teknikal. Sila cuba lagi.');
-                    console.error('Error!', error.message);
+                    alert('Ralat! Sila cuba lagi.');
                     btn.disabled = false;
                     btn.innerText = "Hantar Lagi";
-                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
                 });
         });
     </script>
