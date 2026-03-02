@@ -34,9 +34,17 @@
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Untuk Tarikh Bila?</label>
-                <input type="date" id="orderDate" required 
-                    class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none transition">
+                <label class="block text-sm font-semibold text-slate-700 mb-2">Pilih Hari Tempahan:</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="flex items-center justify-center p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-green-50 transition">
+                        <input type="radio" name="orderDate" value="Selasa" required class="mr-2 accent-green-600">
+                        <span class="text-slate-700 font-medium">Selasa</span>
+                    </label>
+                    <label class="flex items-center justify-center p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-green-50 transition">
+                        <input type="radio" name="orderDate" value="Rabu" required class="mr-2 accent-green-600">
+                        <span class="text-slate-700 font-medium">Rabu</span>
+                    </label>
+                </div>
             </div>
 
             <button type="submit" id="submitBtn" 
@@ -49,25 +57,11 @@
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfxU-fVV5RpyVCWwWI8lKPx5nJzRWHorWojN1YjENz6O3KGVIQ-YZQNlDJyeFc1rugcA/exec'; // <--- PASTE YOUR URL HERE
-        const phoneNumber = '601125126987'; // <--- PASTE PARENTS PHONE HERE
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwfxU-fVV5RpyVCWwWI8lKPx5nJzRWHorWojN1YjENz6O3KGVIQ-YZQNlDJyeFc1rugcA/exec'; 
+        const phoneNumber = '601125126987'; 
     
         const form = document.getElementById('orderForm');
         const btn = document.getElementById('submitBtn');
-        const dateInput = document.getElementById('orderDate');
-    
-        // 1. Logic: Only allow Today and Future dates
-        const todayStr = new Date().toISOString().split('T')[0];
-        dateInput.setAttribute('min', todayStr);
-    
-        // 2. Logic: Only allow Tuesday (2) and Wednesday (3)
-        dateInput.addEventListener('change', function() {
-            const day = new Date(this.value).getUTCDay(); 
-            if (day !== 2 && day !== 3) {
-                alert("Maaf! Kami hanya beroperasi pada hari SELASA & RABU sahaja.");
-                this.value = ""; 
-            }
-        });
     
         form.addEventListener('submit', e => {
             e.preventDefault();
@@ -78,17 +72,17 @@
                 name: document.getElementById('name').value,
                 order: document.getElementById('orderItems').value,
                 details: document.getElementById('details').value,
-                date: document.getElementById('orderDate').value
+                // Grabs whichever radio button (Selasa or Rabu) is picked
+                date: document.querySelector('input[name="orderDate"]:checked').value
             };
     
             fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload) })
                 .then(() => {
                     const now = new Date().toLocaleString('ms-MY');
-                    // This message format makes it hard for customers to "fake" an edit
                     const msg = `*TEMPAPAN BARU (SISTEM)*\n` +
                                 `--------------------------\n` +
                                 `*Nama:* ${payload.name}\n` +
-                                `*Tarikh Ambil:* ${payload.date}\n` +
+                                `*Hari:* ${payload.date}\n` +
                                 `*Pesanan:*\n${payload.order}\n\n` +
                                 `*Nota:* ${payload.details || '-'}\n` +
                                 `--------------------------\n` +
